@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cn.xmirror.rasp</groupId>
+    <artifactId>demo</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <build.version>1.0.5</build.version>
+        <!--        以后考虑整理一下, 太乱了-->
+        <lib.relocate.prefix>cn.thirdparty</lib.relocate.prefix>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <archive>
+                        <manifestFile>src/main/resources/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                    <compilerArguments>
+                        <extdirs>src/main/lib</extdirs>
+                    </compilerArguments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                        <exclude>META-INF/LICENSE</exclude>
+                                        <exclude>META-INF/LICENSE.txt</exclude>
+                                        <exclude>META-INF/NOTICE</exclude>
+                                        <exclude>META-INF/NOTICE.txt</exclude>
+                                        <exclude>readme.md</exclude>
+                                        <exclude>配置项说明.txt</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <artifactSet>
+                                <includes>
+                                    <!--                                    <include>com.github.oshi:oshi-core:jar:*</include>-->
+                                    <include>org.slf4j:slf4j-api:jar:*</include>
+                                    <include>org.slf4j:slf4j-nop:jar:*</include>
+                                    <include>org.apache.kafka:kafka-clients:jar:*</include>
+                                    <include>org.bouncycastle:bcprov-jdk15on:jar:*</include>
+                                    <include>cn.xmirror.lib:lib-inject:jar:*</include>
+                                    <include>org.antlr:antlr4-runtime:jar:*</include>
+                                    <include>org.bouncycastle:bcprov-jdk15on:jar:*</include>
+                                    <include>org.apache.kafka:kafka-clients:jar:*</include>
+                                    <include>javax.servlet:javax.servlet-api:jar:*</include>
+                                    <include>com.blogspot.mydailyjava:weak-lock-free:jar:*</include>
+                                    <include>org.antlr:antlr4-runtime:jar:*</include>
+                                    <include>com.fasterxml.jackson.core:jackson-annotations:jar:*</include>
+                                    <include>com.fasterxml.jackson.core:jackson-databind:jar:*</include>
+                                    <include>com.fasterxml.jackson.core:jackson-core:jar:*</include>
+                                    <include>net.bytebuddy:byte-buddy:jar:*</include>
+                                    <include>net.bytebuddy:byte-buddy-agent:jar:*</include>
+                                    <include>org.apache.httpcomponents:httpclient:jar:*</include>
+                                    <include>org.apache.httpcomponents:httpcore:jar:*</include>
+                                    <include>commons-logging:commons-logging:jar:*</include>
+                                    <include>commons-codec:commons-codec:jar:*</include>
+                                    <include>junit:junit:jar:*</include>
+                                    <include>org.mockito:mockito-core:jar:*</include>
+                                    <include>com.google.guava:guava:jar:*</include>
+                                </includes>
+                            </artifactSet>
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.blogspot.mydailyjava.weaklockfree</pattern>
+                                    <shadedPattern>${lib.relocate.prefix}.com.blogspot.mydailyjava.weaklockfree</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.fasterxml.jackson</pattern>
+                                    <shadedPattern>${lib.relocate.prefix}.com.fasterxml.jackson</shadedPattern>
+                                </relocation>
+                                <!--                                <relocation>-->
+                                <!--                                    <pattern>com.fasterxml.jackson.core</pattern>-->
+                                <!--                                    <shadedPattern>${lib.relocate.prefix}.com.fasterxml.jackson.core</shadedPattern>-->
+                                <!--                                </relocation>-->
+                                <!--                                <relocation>-->
+                                <!--                                    <pattern>com.fasterxml.jackson.databind</pattern>-->
+                                <!--                                    <shadedPattern>${lib.relocate.prefix}.com.fasterxml.jackson.databind</shadedPattern>-->
+                                <!--                                </relocation>-->
+                                <!--                                <relocation>-->
+                                <!--                                    <pattern>oshi</pattern>-->
+                                <!--                                    <shadedPattern>${lib.relocate.prefix}.oshi</shadedPattern>-->
+                                <!--                                </relocation>-->
+                                <relocation>
+                                    <pattern>javax.annotation</pattern>
+                                    <shadedPattern>${lib.relocate.prefix}.javax.annotation</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.google</pattern>
+                                    <shadedPattern>${lib.relocate.prefix}.com.google</shadedPattern>
+                                </relocation>
+                                <!--                                <relocation>-->
+                                <!--                                    <pattern>com.google.common</pattern>-->
+                                <!--                                    <shadedPattern>${lib.relocate.prefix}.com.google.common</shadedPattern>-->
+                                <!--                                </relocation>-->
+                                <!--                                <relocation>-->
+                                <!--                                    <pattern>com.google.thirdparty.publicsuffix</pattern>-->
+                                <!--                                    <shadedPattern>${lib.relocate.prefix}.com.google.thirdparty.publicsuffix</shadedPattern>-->
+                                <!--                                </relocation>-->
+                                <!--                                <relocation>-->
+                                <!--                                    <pattern>com.google.j2objc.annotations</pattern>-->
+                                <!--                                    <shadedPattern>${lib.relocate.prefix}.com.google.j2objc.annotations</shadedPattern>-->
+                                <!--                                </relocation>-->
+                                <relocation>
+                                    <pattern>org.apache.http</pattern>
+                                    <shadedPattern>${lib.relocate.prefix}.org.apache.http</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.kafka</pattern>
+                                    <shadedPattern>${lib.relocate.prefix}.org.apache.kafka</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.commons</pattern>
+                                    <shadedPattern>${lib.relocate.prefix}.org.apache.commons</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.bytebuddy</pattern>
+                                    <shadedPattern>${lib.relocate.prefix}.net.bytebuddy</shadedPattern>
+                                </relocation>
+                                <!--                                <relocation>-->
+                                <!--                                    <pattern>net.bytebuddy.agent</pattern>-->
+                                <!--                                    <shadedPattern>${lib.relocate.prefix}.net.bytebuddy.agent</shadedPattern>-->
+                                <!--                                </relocation>-->
+                                <!--                                <relocation>-->
+                                <!--                                    <pattern>org.apache.http</pattern>-->
+                                <!--                                    <shadedPattern>${lib.relocate.prefix}.org.apache.http</shadedPattern>-->
+                                <!--                                </relocation>-->
+                                <!--                                <relocation>-->
+                                <!--                                    <pattern>org.apache.kafka</pattern>-->
+                                <!--                                    <shadedPattern>${lib.relocate.prefix}.org.apache.kafka</shadedPattern>-->
+                                <!--                                </relocation>-->
+                                <relocation>
+                                    <pattern>org.bouncycastle</pattern>
+                                    <shadedPattern>${lib.relocate.prefix}.org.bouncycastle</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.checkerframework.checker</pattern>
+                                    <shadedPattern>${lib.relocate.prefix}.org.checkerframework.checker</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.codehaus.mojo.animal_sniffer</pattern>
+                                    <shadedPattern>${lib.relocate.prefix}.org.codehaus.mojo.animal_sniffer</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.jpountz</pattern>
+                                    <shadedPattern>${lib.relocate.prefix}.net.jpountz</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.xerial.snappy</pattern>
+                                    <shadedPattern>${lib.relocate.prefix}.org.xerial.snappy</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.slf4j</pattern>
+                                    <shadedPattern>${lib.relocate.prefix}.org.slf4j</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.wvengen</groupId>
+                <artifactId>proguard-maven-plugin</artifactId>
+                <version>2.1.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>proguard</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <proguardVersion>7.1.0</proguardVersion>
+                    <injar>${project.build.finalName}.jar</injar>
+                    <outjar>${project.build.finalName}-pg.jar</outjar>
+                    <obfuscate>true</obfuscate>
+                    <proguardInclude>${basedir}/proguard.pro</proguardInclude>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.sf.proguard</groupId>
+                        <artifactId>proguard-base</artifactId>
+                        <version>6.1.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+    
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <source>8</source>-->
+<!--                    <target>8</target>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-shade-plugin</artifactId>-->
+<!--                <version>2.4.3</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>shade</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <transformers>-->
+<!--                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
+<!--                                    <mainClass>InetAddressTest</mainClass>-->
+<!--                                </transformer>-->
+<!--                            </transformers>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
+    <dependencies>
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>3.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy</artifactId>
+            <version>1.10.19</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy-agent -->
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy-agent</artifactId>
+            <version>1.11.22</version>
+        </dependency>
+    </dependencies>
+</project>

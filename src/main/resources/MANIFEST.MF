@@ -1,0 +1,9 @@
+Manifest-Version: 1.0.10
+Premain-Class: BytebuddyTest
+Main-Class: BytebuddyTest
+implementation-Title: mock-execpion
+implementation-Version: 1.0.10
+Can-Retransform-Classes: true
+Can-Redefine-Classes: true
+Can-Set-Native-Method-Prefix: true
+
